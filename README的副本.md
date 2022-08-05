@@ -1,8 +1,3 @@
-# lot
-更轻松地构建面向客户的 IoT 应用程序
-
-![3-1](src/assets/1.png)
-
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
