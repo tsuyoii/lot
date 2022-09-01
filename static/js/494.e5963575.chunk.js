@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunklot=self.webpackChunklot||[]).push([[494],{494:function(e,t,n){n.r(t),n.d(t,{FakeData:function(){return u}});var a=n(2791),r=n(184),u=function(e){var t=(0,a.useState)(JSON.parse(e.builder)),n=(0,a.useState)(e.cell);console.log(t[0],n[0].toJSON());var u=t[0];return(0,r.jsxs)("div",{children:["12345",u.name]})}}}]);
+//# sourceMappingURL=494.e5963575.chunk.js.map
