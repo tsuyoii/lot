@@ -388,7 +388,16 @@ import { Graph } from "@antv/x6";
                     height: 8
                   }
                 }
-          }
+          },
+          tools: {
+            name: 'segments',
+            args: {
+              snapRadius: 20,
+              attrs: {
+                fill: '#444',
+              },
+            },
+          },
         },
         true
     );

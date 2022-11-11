@@ -5,6 +5,13 @@ export const initGraph = ()=> {
         container: document.getElementById('container')!,
         grid: true,
         history:true,
+        onToolItemCreated({ tool }) {
+          const handle = tool as any
+          const options = handle.options
+          if (options && options.index % 2 === 1) {
+            tool.setAttrs({ fill: 'red' })
+          }
+        },
         mousewheel: {
           enabled: true,
           zoomAtMousePosition: true,
@@ -43,6 +50,15 @@ export const initGraph = ()=> {
                     height: 8
                   }
                 }
+              },
+              tools: {
+                name: 'segments',
+                args: {
+                  snapRadius: 20,
+                  attrs: {
+                    fill: '#444',
+                  },
+                },
               },
               zIndex: 0
             });
@@ -134,6 +150,25 @@ const initEvent = (graph:Graph)=> {
   graph.on("node:mouseleave", () => {
     showPorts(false);
   });
+
+  graph.on('edge:mouseenter', ({ cell }) => {
+    cell.addTools(
+      [
+        { name: 'vertices' },
+        {
+          name: 'button-remove',
+          args: { distance: 20  },
+        },
+        { name: 'segments'},
+      ],
+    )
+  })
+  
+  graph.on('edge:mouseleave', ({ cell }) => {
+    if (cell.hasTool('segments')) {
+      cell.removeTool('segments')
+    }
+  })
 
   // 双击进入编辑模式
   graph.on('node:dblclick', ({ node, e }) => {

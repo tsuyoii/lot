@@ -149,6 +149,15 @@ export default function () {
                       },
                     },
                   },
+                  tools: {
+                    name: 'segments',
+                    args: {
+                      snapRadius: 20,
+                      attrs: {
+                        fill: '#444',
+                      },
+                    },
+                  },
                   source: {
                     cell: `${item.id}`,
                     port: 'bottom-left',
@@ -171,6 +180,15 @@ export default function () {
                         height: 8,
                         name: 'block',
                         width: 12,
+                      },
+                    },
+                  },
+                  tools: {
+                    name: 'segments',
+                    args: {
+                      snapRadius: 20,
+                      attrs: {
+                        fill: '#444',
                       },
                     },
                   },

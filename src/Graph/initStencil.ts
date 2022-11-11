@@ -1,4 +1,4 @@
-import { Addon, Graph } from "@antv/x6"
+import { Addon, Graph, Shape } from "@antv/x6"
 import './shape'
 
 export const initStencil = (graph:Graph,groups?:any) => {
@@ -18,16 +18,96 @@ export const initStencil = (graph:Graph,groups?:any) => {
             rowHeight: 55,
         },
         // 设置拖入画布时图片的大小
-        // getDropNode(node) {
-        //     const size = node.size()
-        //     return node.clone().size(size.width * 0.6, size.height * 1)
-        //     // return node.clone().size(size.width * 3, size.height * 3)
-        // }
+        getDropNode(node) {
+            const size = node.size()
+            // return node.clone().size(size.width * 0.6, size.height * 1)
+            return node.clone().size(size.width * 2, size.height * 2)
+        }
     })
     return stencil;
 }
 
 export const initSystemStencil = (graph:Graph) => {
+  // 基础形状
+  // 矩形
+  const r0_1 = new Shape.Rect({
+    width: 30,
+    height: 30,
+    attrs: {
+      body: {
+        fill: 'transparent',
+        strokeWidth: 1,
+        stroke: '#222222'
+      },
+    },
+  })
+    // 圆角矩形
+    const r0_2 = new Shape.Rect({
+      width: 40,
+      height: 20,
+      attrs: {
+        body: {
+          fill: 'transparent',
+          strokeWidth: 1,
+          stroke: '#222222',
+          rx: 5,
+          ry: 5,
+        },
+      },
+    })
+    // 圆形
+    const r0_3 = new Shape.Circle({
+      width: 30,
+      height: 30,
+      attrs: {
+        body: {
+          fill: 'transparent',
+          strokeWidth: 1,
+          stroke: '#222222'
+        },
+      },
+    });
+    const r0_4 = new Shape.Ellipse ({
+      width: 40,
+      height: 20,
+      attrs: {
+        body: {
+          fill: 'transparent',
+          strokeWidth: 1,
+          stroke: '#222222'
+        },
+      },
+    })
+
+    // 文本框
+    const r0_5 = new Shape.Rect({
+      width: 60,
+      height: 10,
+      attrs: {
+        body: {
+          fill: 'transparent',
+          strokeWidth: 0,
+          stroke: '#222222',
+        },
+        label:{
+          text:'文本'
+        }
+      },
+    })
+    // 五角星
+    const r0_6 = new Shape.Polygon ({
+      width: 30,
+      height: 30,
+      points:
+        '26.934,1.318 35.256,18.182 53.867,20.887 40.4,34.013 43.579,52.549 26.934,43.798 10.288,52.549 13.467,34.013 0,20.887 18.611,18.182',
+      attrs: {
+        body: {
+          fill: 'transparent',
+          strokeWidth: 1,
+        },
+      },
+    })
+
   // 开始
   const r1 = graph.createNode({
     shape: 'custom-start',
@@ -285,6 +365,16 @@ export const initSystemStencil = (graph:Graph) => {
 
   const groups = [
     {
+      title: 'COMMON',
+      name: 'group0',
+      graphHeight: 90,
+      layoutOptions: {
+          rowHeight: 40,
+          columns: 3,
+          columnWidth: 50,
+      },
+  },
+    {
         title: 'TRIGGERS',
         name: 'group1',
         graphHeight: 220,
@@ -342,6 +432,7 @@ export const initSystemStencil = (graph:Graph) => {
   
   const stencilContainer = document.querySelector('#stencil');
   if (stencilContainer && !stencilContainer.hasChildNodes()) {
+    stencil.load([r0_1, r0_2,r0_3,r0_4,r0_5,r0_6], 'group0');
     stencil.load([r1_1, r1_2, r1_3, r1_4], 'group1');
     stencil.load([r2_1], 'group2');
     stencil.load([r3_1, r3_2, r3_3, r3_4, r3_5], 'group3');
