@@ -47,40 +47,40 @@ export const initGraph = ()=> {
               zIndex: 0
             });
           },  
-        // 是否触发交互事件
-        validateMagnet({ magnet }) {
-          return magnet.getAttribute('port-group') !== 'top'
-          // return true
-        },               
-        // 显示可用的链接桩
-        validateConnection({
-          sourceView,
-          targetView,
-          sourceMagnet,
-          targetMagnet,
-        }) {
-          // 不允许连接到自己
-          if (sourceView === targetView) {
-            return false
-          }
+        // // 是否触发交互事件
+        // validateMagnet({ magnet }) {
+        //   return magnet.getAttribute('port-group') !== 'top'
+        //   // return true
+        // },               
+        // // 显示可用的链接桩
+        // validateConnection({
+        //   sourceView,
+        //   targetView,
+        //   sourceMagnet,
+        //   targetMagnet,
+        // }) {
+        //   // 不允许连接到自己
+        //   if (sourceView === targetView) {
+        //     return false
+        //   }
 
-          // 只能从输出链接桩创建连接
-          if (
-            !sourceMagnet ||
-            sourceMagnet.getAttribute('port-group') === 'top'
-          ) {
-            return false
-          }
+        //   // 只能从输出链接桩创建连接
+        //   if (
+        //     !sourceMagnet ||
+        //     sourceMagnet.getAttribute('port-group') === 'top'
+        //   ) {
+        //     return false
+        //   }
 
-          // 只能连接到输入链接桩
-          if (
-            !targetMagnet ||
-            targetMagnet.getAttribute('port-group') !== 'top'
-          ) {
-            return false
-          }
-          return !!targetMagnet
-        },
+        //   // 只能连接到输入链接桩
+        //   if (
+        //     !targetMagnet ||
+        //     targetMagnet.getAttribute('port-group') !== 'top'
+        //   ) {
+        //     return false
+        //   }
+        //   return !!targetMagnet
+        // },
         },
         highlighting: {
           magnetAdsorbed: {
@@ -134,6 +134,24 @@ const initEvent = (graph:Graph)=> {
   graph.on("node:mouseleave", () => {
     showPorts(false);
   });
+
+  // 双击进入编辑模式
+  graph.on('node:dblclick', ({ node, e }) => {
+    node.addTools({
+      name: 'node-editor',
+      args: {
+        event: e,
+      },
+    })
+  })
+  graph.on('edge:dblclick', ({ cell, e }) => {
+    cell.addTools({
+      name: 'edge-editor',
+      args: {
+        event: e,
+      },
+    })
+  })
 }
 
 const initKeyboard = (graph:Graph) => {
@@ -186,10 +204,14 @@ const initKeyboard = (graph:Graph) => {
   })
 
   //delete
-  graph.bindKey('backspace', () => {
+  graph.bindKey('backspace', (e) => {
+    
     const cells = graph.getSelectedCells()
-    if (cells.length) {
-        graph.removeCells(cells)
+    if(!(cells[0].hasTool('node-editor') || cells[0].hasTool('edge-editor'))){
+      // 没有在编辑状态
+      if (cells.length) {
+          graph.removeCells(cells)
+      }      
     }
   })
 

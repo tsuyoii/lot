@@ -88,3 +88,7 @@
   height: 250px;
   overflow: auto;
 } */
+
+.left-tab .ant-tabs-nav {
+  margin: 0 !important;
+}

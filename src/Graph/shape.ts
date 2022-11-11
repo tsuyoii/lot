@@ -438,3 +438,67 @@ import { Graph } from "@antv/x6";
           },
           true,
     )
+
+    // // my-image
+    Graph.registerNode(
+        "ais-image",
+        {
+          inherit: "image",
+          width: 52,
+          height: 52,
+          ports: {
+            ...ports,
+            items: [
+              {
+                id:'top',
+                group: "top"
+              },
+              {
+                id:'top-left',
+                group: "top"
+              },
+              {
+                id:'top-right',
+                group: "top"
+              },
+              {
+                id:'right',
+                group: "right"
+              },
+              {
+                id:'right-top',
+                group: "right"
+              },
+              {
+                id:'right-bottom',
+                group: "right"
+              },
+              {
+                id:'bottom',
+                group: "bottom"
+              },
+              {
+                id:'bottom-left',
+                group: "bottom"
+              },
+              {
+                id:'bottom-right',
+                group: "bottom"
+              },
+              {
+                id:'left',
+                group: "left"
+              }, 
+              {
+                id:'left-top',
+                group: "left"
+              },
+              {
+                id:'left-bottom',
+                group: "left"
+              }           
+            ]
+          },
+        },
+        true
+    );
