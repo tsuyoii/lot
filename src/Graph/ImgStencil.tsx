@@ -53,7 +53,7 @@ export const ImgStencil = (props: any) => {
       props?.stencil.load([uploadNode, ...ImgNodes], 'imgGroup');
       props?.stencil.resizeGroup('imgGroup', {
         width: 220,
-        height: (Array.isArray(ImgNodes) ? (ImgNodes.length + 1) * 20 : 0) + 10,
+        height: (Array.isArray(ImgNodes) ? (ImgNodes.length + 1) * 24 : 0) + 10,
       });
       console.log(ImgNodes);
     }
