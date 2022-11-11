@@ -1,6 +1,6 @@
 import { Graph } from "@antv/x6";
 
-    const ports = {
+    export const ports = {
         groups: {
           top: {
               position: "top",

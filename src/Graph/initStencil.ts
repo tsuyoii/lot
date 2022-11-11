@@ -1,5 +1,6 @@
 import { Addon, Graph, Shape } from "@antv/x6"
 import './shape'
+import { ports } from "./shape"
 
 export const initStencil = (graph:Graph,groups?:any) => {
     const stencil = new Addon.Stencil({
@@ -40,6 +41,7 @@ export const initSystemStencil = (graph:Graph) => {
         stroke: '#222222'
       },
     },
+    ports: { ...ports },
   })
     // 圆角矩形
     const r0_2 = new Shape.Rect({
@@ -54,6 +56,7 @@ export const initSystemStencil = (graph:Graph) => {
           ry: 5,
         },
       },
+      ports: { ...ports },
     })
     // 圆形
     const r0_3 = new Shape.Circle({
@@ -66,6 +69,7 @@ export const initSystemStencil = (graph:Graph) => {
           stroke: '#222222'
         },
       },
+      ports: { ...ports },
     });
     const r0_4 = new Shape.Ellipse ({
       width: 40,
@@ -77,6 +81,7 @@ export const initSystemStencil = (graph:Graph) => {
           stroke: '#222222'
         },
       },
+      ports: { ...ports },
     })
 
     // 文本框
@@ -93,6 +98,7 @@ export const initSystemStencil = (graph:Graph) => {
           text:'文本'
         }
       },
+      ports: { ...ports },
     })
     // 五角星
     const r0_6 = new Shape.Polygon ({
@@ -106,6 +112,7 @@ export const initSystemStencil = (graph:Graph) => {
           strokeWidth: 1,
         },
       },
+      ports: { ...ports },
     })
 
   // 开始
