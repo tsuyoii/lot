@@ -303,6 +303,7 @@ const initKeyboard = (graph:Graph) => {
           {x:40,y:40}
         ]
       },
+      {name:'boundary'},
       { name: 'segments'},
     ])
   })
