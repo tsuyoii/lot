@@ -71,6 +71,7 @@ export const initSystemStencil = (graph:Graph) => {
       },
       ports: { ...ports },
     });
+    // 椭圆型
     const r0_4 = new Shape.Ellipse ({
       width: 40,
       height: 20,
@@ -88,28 +89,59 @@ export const initSystemStencil = (graph:Graph) => {
     const r0_5 = new Shape.Rect({
       width: 60,
       height: 10,
+      label:'文本',
       attrs: {
         body: {
           fill: 'transparent',
           strokeWidth: 0,
           stroke: '#222222',
         },
-        label:{
-          text:'文本'
-        }
       },
       ports: { ...ports },
     })
     // 五角星
-    const r0_6 = new Shape.Polygon ({
+    // const r0_6 = new Shape.Polygon ({
+    //   width: 30,
+    //   height: 30,
+    //   points:
+    //     '26.934,1.318 35.256,18.182 53.867,20.887 40.4,34.013 43.579,52.549 26.934,43.798 10.288,52.549 13.467,34.013 0,20.887 18.611,18.182',
+    //   attrs: {
+    //     body: {
+    //       fill: 'transparent',
+    //       strokeWidth: 1,
+    //     },
+    //   },
+    //   ports: { ...ports },
+    // })
+    // 圆柱
+    const r0_6 = new Shape.Cylinder ({
+      width: 30,
+      height: 40,
+      attrs: {
+        top: {
+          fill: 'transparent',
+          strokeWidth: 1,
+          stroke: '#222222'
+        },
+        body: {
+          fill: 'transparent',
+          strokeWidth: 1,
+          stroke: '#222222'
+        },
+      },
+      ports: { ...ports },
+    })
+    const r0_7 = new Shape.Polygon ({
       width: 30,
       height: 30,
-      points:
-        '26.934,1.318 35.256,18.182 53.867,20.887 40.4,34.013 43.579,52.549 26.934,43.798 10.288,52.549 13.467,34.013 0,20.887 18.611,18.182',
+      // 使用 points 属性指定多边形的顶点，相当于指定多边形的 refPoints 属性
+      // https://x6.antv.vision/zh/docs/api/registry/attr#refpointsresetoffset
+      points: '0,10 10,0 20,10',
       attrs: {
         body: {
           fill: 'transparent',
           strokeWidth: 1,
+          stroke: '#222222'
         },
       },
       ports: { ...ports },
@@ -374,7 +406,7 @@ export const initSystemStencil = (graph:Graph) => {
     {
       title: 'COMMON',
       name: 'group0',
-      graphHeight: 90,
+      graphHeight: 150,
       layoutOptions: {
           rowHeight: 40,
           columns: 3,
@@ -439,7 +471,7 @@ export const initSystemStencil = (graph:Graph) => {
   
   const stencilContainer = document.querySelector('#stencil');
   if (stencilContainer && !stencilContainer.hasChildNodes()) {
-    stencil.load([r0_1, r0_2,r0_3,r0_4,r0_5,r0_6], 'group0');
+    stencil.load([r0_1, r0_2,r0_3,r0_4,r0_5,r0_7,r0_6], 'group0');
     stencil.load([r1_1, r1_2, r1_3, r1_4], 'group1');
     stencil.load([r2_1], 'group2');
     stencil.load([r3_1, r3_2, r3_3, r3_4, r3_5], 'group3');

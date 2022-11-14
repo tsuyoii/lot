@@ -114,8 +114,10 @@ export const initGraph = ()=> {
         selecting: {
           enabled: true,
           rubberband: true,
+          // rubberEdge: true,
           modifiers: 'shift',
-          showNodeSelectionBox: true
+          showNodeSelectionBox: true,
+          // showEdgeSelectionBox: true,
         },
         panning: {
           enabled: true,
@@ -151,25 +153,6 @@ const initEvent = (graph:Graph)=> {
     showPorts(false);
   });
 
-  graph.on('edge:mouseenter', ({ cell }) => {
-    cell.addTools(
-      [
-        { name: 'vertices' },
-        {
-          name: 'button-remove',
-          args: { distance: 20  },
-        },
-        { name: 'segments'},
-      ],
-    )
-  })
-  
-  graph.on('edge:mouseleave', ({ cell }) => {
-    if (cell.hasTool('segments')) {
-      cell.removeTool('segments')
-    }
-  })
-
   // 双击进入编辑模式
   graph.on('node:dblclick', ({ node, e }) => {
     node.addTools({
@@ -179,14 +162,14 @@ const initEvent = (graph:Graph)=> {
       },
     })
   })
-  graph.on('edge:dblclick', ({ cell, e }) => {
-    cell.addTools({
-      name: 'edge-editor',
-      args: {
-        event: e,
-      },
-    })
-  })
+  // graph.on('edge:dblclick', ({ cell, e }) => {
+  //   cell.addTools({
+  //     name: 'edge-editor',
+  //     args: {
+  //       event: e,
+  //     },
+  //   })
+  // })
 }
 
 const initKeyboard = (graph:Graph) => {
@@ -240,7 +223,6 @@ const initKeyboard = (graph:Graph) => {
 
   //delete
   graph.bindKey('backspace', (e) => {
-    
     const cells = graph.getSelectedCells()
     if(!(cells[0].hasTool('node-editor') || cells[0].hasTool('edge-editor'))){
       // 没有在编辑状态
@@ -265,6 +247,8 @@ const initKeyboard = (graph:Graph) => {
     }
   })
 
+  // 单击选中边，拖拽时可以编辑边
+
   graph.on('edge:mouseenter', ({ cell }) => {
       cell.addTools([
         {
@@ -278,10 +262,51 @@ const initKeyboard = (graph:Graph) => {
             },
           },
         },
+        // { name: 'vertices' },
+        // {
+        //   name: 'button-remove',
+        //   args: { distance: 20  },
+        // },
+        // { name: 'segments'},
       ])
+      
   })
   
   graph.on('edge:mouseleave', ({ cell }) => {
       cell.removeTools()
+  })
+
+  // graph.on('edge:contextmenu', ({ cell }) => {
+  //   console.log('右键边')
+  //   cell.addTools([
+  //     { name: 'vertices' },
+  //     { name: 'segments'},
+  //   ])
+  // })
+
+  // graph.on('edge:added', ({ edge }) => {
+  //   if(!edge.getVertices().length){
+  //     // edge.setVertices([edge.getSourcePoint(),edge.getTargetPoint()])
+  //     edge.setVertices(edge.getSourcePoint())
+  //   }
+  // })
+
+  graph.on('edge:click', ({ cell }) => {
+    graph.select(cell);
+    // if(!cell.getVertices().length){
+    //   cell.setVertices([cell.getSourcePoint(),cell.getTargetPoint()])
+    // }
+    cell.addTools([
+      // { name: 'vertices' },
+      { name: 'vertices',
+        args: [
+          {x:40,y:40}
+        ]
+      },
+      { name: 'segments'},
+    ])
+  })
+  graph.on('edge:unselected', ({ cell }) => {
+    cell.removeTools()
   })
 }
