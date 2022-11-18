@@ -272,9 +272,9 @@ const initKeyboard = (graph:Graph) => {
       
   })
   
-  graph.on('edge:mouseleave', ({ cell }) => {
-      cell.removeTools()
-  })
+  // graph.on('edge:mouseleave', ({ cell }) => {
+  //     cell.removeTools()
+  // })
 
   // graph.on('edge:contextmenu', ({ cell }) => {
   //   console.log('右键边')
