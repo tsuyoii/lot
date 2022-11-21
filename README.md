@@ -1,7 +1,12 @@
 # lot
+
 更轻松地构建面向客户的 IoT 应用程序
 
 ![3-1](src/assets/1.png)
+
+# 此处查看历史记录
+
+![3-2](src/assets/githistory.png)
 
 # Getting Started with Create React App
 
