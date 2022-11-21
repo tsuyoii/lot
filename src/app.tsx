@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+// import React, { useState, useEffect } from 'react';
+import * as React from 'react';
 import FlowGraph from './Graph';
 import './app.css';
 import { Cell, Graph } from '@antv/x6';
@@ -14,10 +15,10 @@ export default function () {
   console.log(apiUrl);
 
   // const [isReady, setIsReady] = useState(false)
-  const [type, setType] = useState<CONFIG_TYPE>(CONFIG_TYPE.GRID);
-  const [id, setID] = useState('');
-  const [category, setCategory] = useState('');
-  const [imgStencil, setImgStencil] = useState<any>();
+  const [type, setType] = React.useState<CONFIG_TYPE>(CONFIG_TYPE.GRID);
+  const [id, setID] = React.useState('');
+  const [category, setCategory] = React.useState('');
+  const [imgStencil, setImgStencil] = React.useState<any>();
 
   const getContainerSize = () => {
     return {
@@ -26,7 +27,7 @@ export default function () {
     };
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     const { graph } = FlowGraph.init();
     // setIsReady(true)
     fetchData(graph);
@@ -47,6 +48,12 @@ export default function () {
           if (left || right) {
             if (output[sour] && (output[sour][0] || output[sour][1])) {
               //已经有其他选项的
+              if (!output[sour][0]) {
+                output[sour][0] = [];
+              }
+              if (!output[sour][1]) {
+                output[sour][1] = [];
+              }
               output[sour] = [
                 //将null元素过滤掉,arr.filter(Boolean)
                 [...output[sour][0], left].filter(Boolean),
@@ -245,6 +252,7 @@ export default function () {
               label: `图片组件`,
               key: '2',
               children: <ImgStencil stencil={imgStencil} />,
+              // children: <SystemStencil />,
             },
           ]}
         />

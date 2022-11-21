@@ -9,6 +9,10 @@
   width: 195px;
   /* width: 215px; */
   height: fit-content;
+  background-color: white;
+}
+.content {
+  background-color: white;
 }
 .app-content {
   flex: 1;

@@ -1,6 +1,6 @@
 import { Cell } from '@antv/x6';
 import { Col, Input, InputNumber, Row, Select, Space } from 'antd';
-import React, { useEffect, useState } from 'react';
+import * as React from 'react';
 
 interface Params {
   builder: string;
@@ -12,9 +12,9 @@ const scheduleData = [{ key: 'seconds', value: 'Simple Interval' }];
 const unit = ['seconds', 'minutes', 'hour', 'day'];
 
 export const FakeData: React.FC<Params> = (props) => {
-  const [schedule, setSchedule] = useState(scheduleData[0].value);
-  const [unitType, setUnitType] = useState(unit[1]);
-  const [timer, setTimer] = useState<number | null>(1);
+  const [schedule, setSchedule] = React.useState(scheduleData[0].value);
+  const [unitType, setUnitType] = React.useState(unit[1]);
+  const [timer, setTimer] = React.useState<number | null>(1);
   const Time: {
     [key: string]: number;
   } = {
@@ -24,7 +24,7 @@ export const FakeData: React.FC<Params> = (props) => {
     day: 24 * 3600,
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (props) {
       const cells = props.cell?.toJSON();
       setSchedule(cells.meta?.timerTypeSelect || scheduleData[0].key);
@@ -34,7 +34,7 @@ export const FakeData: React.FC<Params> = (props) => {
     }
   }, [props.cellId]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     props.cell?.prop('config', {
       seconds: transToSec(timer, unitType),
     });

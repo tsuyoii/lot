@@ -1,11 +1,11 @@
 import { Upload } from 'antd';
-import React, { useEffect, useState } from 'react';
+import * as React from 'react';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import FlowGraph from '.';
 import { PlusOutlined } from '@ant-design/icons';
 
 export const ImgStencil = (props: any) => {
-  const [fileList, setFileList] = useState<UploadFile[]>([
+  const [fileList, setFileList] = React.useState<UploadFile[]>([
     {
       uid: '-1',
       name: 'image.png',
@@ -32,7 +32,7 @@ export const ImgStencil = (props: any) => {
     },
   ]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (props.stencil) {
       const { graph } = FlowGraph;
       // 上传图片按钮的占位组件

@@ -1,6 +1,3 @@
-import React, { useEffect } from 'react';
-import FlowGraph from '.';
+import * as React from 'react';
 
-export const SystemStencil = (props: any) => {
-  return <>{/* <div id="stencil" className="app-side"></div> */}</>;
-};
+export const SystemStencil = () => <div>systemStencil</div>;

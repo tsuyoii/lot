@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import * as React from 'react'
 
 export function useGridAttr() {
-  const [gridAttrs, setGridAttrs] = useState({
+  const [gridAttrs, setGridAttrs] = React.useState({
     type: 'mesh',
     size: 10,
     color: '#e5e5e5',

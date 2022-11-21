@@ -1,5 +1,5 @@
 import { Divider, Input, Modal, Radio, Row, Select, Space } from 'antd';
-import React, { useEffect, useState } from 'react';
+import * as React from 'react';
 import brace from 'brace';
 import AceEditor from 'react-ace';
 import 'brace/mode/javascript';
@@ -15,29 +15,35 @@ const { Option } = Select;
 const MethodData = ['workflowPayload', 'payloadPath', 'jsonTemplate'];
 export const FakeData: React.FC<Params> = (props) => {
   const cells = props.cell?.toJSON();
-  const [awsAccessKeyId, setAwsAccessKeyId] = useState(
+  const [awsAccessKeyId, setAwsAccessKeyId] = React.useState(
     cells?.config?.awsAccessKeyId || ''
   );
-  const [awsSecretAccessKey, setSecretAccessKey] = useState(
+  const [awsSecretAccessKey, setSecretAccessKey] = React.useState(
     cells.config?.awsSecretAccessKey || ''
   );
-  const [awsRegion, setRegion] = useState(cells.config?.awsRegion || '');
-  const [functionName, setFunctionName] = useState(
+  const [awsRegion, setRegion] = React.useState(cells.config?.awsRegion || '');
+  const [functionName, setFunctionName] = React.useState(
     cells.config?.functionName || ''
   );
-  const [sourceMethod, setSourceMethod] = useState(
+  const [sourceMethod, setSourceMethod] = React.useState(
     cells.config?.sourceMethod || ''
   );
-  const [sourceData, setSourceData] = useState(cells.config?.sourceData || '');
-  const [resultPath, setResultPath] = useState(cells.config?.resultPath || '');
-  const [errorBehavior, setErrorBehavior] = useState(
+  const [sourceData, setSourceData] = React.useState(
+    cells.config?.sourceData || ''
+  );
+  const [resultPath, setResultPath] = React.useState(
+    cells.config?.resultPath || ''
+  );
+  const [errorBehavior, setErrorBehavior] = React.useState(
     cells.config?.errorBehavior || ''
   );
-  const [errorPath, setErrorPath] = useState(cells.config?.errorPath || '');
+  const [errorPath, setErrorPath] = React.useState(
+    cells.config?.errorPath || ''
+  );
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setAwsAccessKeyId(cells.config?.awsAccessKeyId),
       setSecretAccessKey(cells.config?.awsSecretAccessKey),
       setRegion(cells.config?.awsRegion),
@@ -49,7 +55,7 @@ export const FakeData: React.FC<Params> = (props) => {
       setErrorPath(cells.config?.errorPath);
   }, [props.cellId]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     props.cell?.prop('config', {
       awsAccessKeyId,
       awsSecretAccessKey,

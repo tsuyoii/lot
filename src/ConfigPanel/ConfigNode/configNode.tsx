@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import * as React from 'react';
 import { Tabs, Row, Col, Input, Slider, Space } from 'antd';
 import { Cell } from '@antv/x6';
 import FlowGraph from '../../Graph';
@@ -21,18 +21,18 @@ interface NodeAttrs {
 
 export default function (props: IProps) {
   const { id, category } = props;
-  const [attrs, setAttrs] = useState<NodeAttrs>({
+  const [attrs, setAttrs] = React.useState<NodeAttrs>({
     stroke: '#5F95FF',
     strokeWidth: 1,
     fill: 'rgba(95,149,255,0.05)',
     fontSize: 12,
     color: 'rgba(0,0,0,0.85)',
   });
-  const cellRef = useRef<Cell>();
-  const [nodeLabel, setNodeLabel] = useState<any>();
+  const cellRef = React.useRef<Cell>();
+  const [nodeLabel, setNodeLabel] = React.useState<any>();
   // const [NodeSet,setNodeSet] = useState<React.FC>()
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (id) {
       const { graph } = FlowGraph;
       const cell = graph.getCellById(id);

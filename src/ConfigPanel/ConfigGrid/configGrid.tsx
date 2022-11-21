@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react'
-import { Tabs, Row, Col, Select, Slider, Input, Checkbox } from 'antd'
-import FlowGraph from '../../Graph'
+import * as React from 'react';
+import { Tabs, Row, Col, Select, Slider, Input, Checkbox } from 'antd';
+import FlowGraph from '../../Graph';
 
-
-const { TabPane } = Tabs
+const { TabPane } = Tabs;
 
 enum GRID_TYPE {
   DOT = 'dot',
@@ -27,24 +26,24 @@ enum REPEAT_TYPE {
 
 interface IProps {
   attrs: {
-    [key: string]: any
-  }
-  setAttr: (key: string, value: any) => void
+    [key: string]: any;
+  };
+  setAttr: (key: string, value: any) => void;
 }
 
 const tryToJSON = (val: string) => {
   try {
-    return JSON.parse(val)
+    return JSON.parse(val);
   } catch (error) {
-    return val
+    return val;
   }
-}
+};
 
 export default function (props: IProps) {
-  const { attrs, setAttr } = props
+  const { attrs, setAttr } = props;
 
-  useEffect(() => {
-    let options
+  React.useEffect(() => {
+    let options;
     if (attrs.type === 'doubleMesh') {
       options = {
         type: attrs.type,
@@ -59,7 +58,7 @@ export default function (props: IProps) {
             factor: attrs.factor,
           },
         ],
-      }
+      };
     } else {
       options = {
         type: attrs.type,
@@ -69,9 +68,9 @@ export default function (props: IProps) {
             thickness: attrs.thickness,
           },
         ],
-      }
+      };
     }
-    const { graph } = FlowGraph
+    const { graph } = FlowGraph;
     // graph.drawGrid(options)
   }, [
     attrs.type,
@@ -80,14 +79,14 @@ export default function (props: IProps) {
     attrs.thicknessSecond,
     attrs.colorSecond,
     attrs.factor,
-  ])
+  ]);
 
-  useEffect(() => {
-    const { graph } = FlowGraph
+  React.useEffect(() => {
+    const { graph } = FlowGraph;
     // graph.setGridSize(attrs.size)
-  }, [attrs.size])
+  }, [attrs.size]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const options = {
       color: attrs.bgColor,
       image: attrs.showImage
@@ -98,8 +97,8 @@ export default function (props: IProps) {
       size: tryToJSON(attrs.bgSize),
       position: tryToJSON(attrs.position),
       opacity: attrs.opacity,
-    }
-    const { graph } = FlowGraph
+    };
+    const { graph } = FlowGraph;
     // graph.drawBackground(options)
   }, [
     attrs.bgColor,
@@ -109,7 +108,7 @@ export default function (props: IProps) {
     attrs.bgSize,
     attrs.position,
     attrs.opacity,
-  ])
+  ]);
 
   return (
     <Tabs defaultActiveKey="1">
@@ -120,8 +119,7 @@ export default function (props: IProps) {
             <Select
               style={{ width: '100%' }}
               value={attrs.type}
-              onChange={(val) => setAttr('type', val)}
-            >
+              onChange={(val) => setAttr('type', val)}>
               <Select.Option value={GRID_TYPE.DOT}>Dot</Select.Option>
               <Select.Option value={GRID_TYPE.FIXED_DOT}>
                 Fixed Dot
@@ -265,8 +263,7 @@ export default function (props: IProps) {
           <Col span={14} offset={6}>
             <Checkbox
               checked={attrs.showImage}
-              onChange={(e) => setAttr('showImage', e.target.checked)}
-            >
+              onChange={(e) => setAttr('showImage', e.target.checked)}>
               Show Image
             </Checkbox>
           </Col>
@@ -279,8 +276,7 @@ export default function (props: IProps) {
                 <Select
                   style={{ width: '100%' }}
                   value={attrs.repeat}
-                  onChange={(val) => setAttr('repeat', val)}
-                >
+                  onChange={(val) => setAttr('repeat', val)}>
                   <Select.Option value={REPEAT_TYPE.NO_REPEAT}>
                     No Repeat
                   </Select.Option>
@@ -335,8 +331,7 @@ export default function (props: IProps) {
                 <Select
                   style={{ width: '100%' }}
                   value={attrs.position}
-                  onChange={(val) => setAttr('position', val)}
-                >
+                  onChange={(val) => setAttr('position', val)}>
                   <Select.Option value="center">center</Select.Option>
                   <Select.Option value="left">left</Select.Option>
                   <Select.Option value="right">right</Select.Option>
@@ -355,16 +350,14 @@ export default function (props: IProps) {
                 <Select
                   style={{ width: '100%' }}
                   value={attrs.bgSize}
-                  onChange={(val) => setAttr('bgSize', val)}
-                >
+                  onChange={(val) => setAttr('bgSize', val)}>
                   <Select.Option value="auto auto">auto auto</Select.Option>
                   <Select.Option value="cover">cover</Select.Option>
                   <Select.Option value="contain">contain</Select.Option>
                   <Select.Option value="30px 30px">30px 30px</Select.Option>
                   <Select.Option value="100% 100%">100% 100%</Select.Option>
                   <Select.Option
-                    value={JSON.stringify({ width: 150, height: 150 })}
-                  >
+                    value={JSON.stringify({ width: 150, height: 150 })}>
                     {`{width: 150, height: 150 }`}
                   </Select.Option>
                 </Select>
@@ -389,5 +382,5 @@ export default function (props: IProps) {
         )}
       </TabPane>
     </Tabs>
-  )
+  );
 }

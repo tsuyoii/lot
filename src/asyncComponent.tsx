@@ -1,28 +1,39 @@
 import { Cell } from '@antv/x6';
-import React, { useEffect, useState } from 'react';
+import * as React from 'react';
 import { useParams } from 'react-router-dom';
-export const useAsyncComponent= (path:string,id:string,param?:object,cell?:Cell) => {
+export const useAsyncComponent = (
+  path: string,
+  id: string,
+  param?: object,
+  cell?: Cell
+) => {
   const routerParams: any = useParams();
-  const [dynamic_Components, set_Dynamic_Components] = useState<React.FC>();
-  useEffect(() => {
-    if(path){
-        import(`./nodeComponents/${path}`).then(module => {
-          let Component = module.FakeData
-          const formatModule: React.FC = () => { 
-            // return <div><Component builder={routerParams.type}/></div>; 
-            return <div><Component builder={JSON.stringify(param)} cell={cell} cellId={id}/></div>; 
-          };
-          set_Dynamic_Components(formatModule);
-        });      
-    }else{
-      set_Dynamic_Components(()=><div>加载失败咯...</div>)
+  const [dynamic_Components, set_Dynamic_Components] =
+    React.useState<React.FC>();
+  React.useEffect(() => {
+    if (path) {
+      import(`./nodeComponents/${path}`).then((module) => {
+        let Component = module.FakeData;
+        const formatModule: React.FC = () => {
+          // return <div><Component builder={routerParams.type}/></div>;
+          return (
+            <div>
+              <Component
+                builder={JSON.stringify(param)}
+                cell={cell}
+                cellId={id}
+              />
+            </div>
+          );
+        };
+        set_Dynamic_Components(formatModule);
+      });
+    } else {
+      set_Dynamic_Components(() => <div>加载失败咯...</div>);
     }
-  }, [path,cell]);
-  return dynamic_Components
-}
-
-
-
+  }, [path, cell]);
+  return dynamic_Components;
+};
 
 // export const useAsyncComponent = (importComponent) => {
 //   const [component, setComponent] = useState()
@@ -38,10 +49,6 @@ export const useAsyncComponent= (path:string,id:string,param?:object,cell?:Cell)
 //   },[])
 //   return component
 // };
-
-
-
-
 
 // import React, { Component } from 'react';
 // import ReactDOM from 'react-dom';
