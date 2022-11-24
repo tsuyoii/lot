@@ -4,10 +4,6 @@
 
 ![3-1](src/assets/1.png)
 
-# 此处查看历史记录
-
-![3-2](src/assets/githistory.png)
-
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

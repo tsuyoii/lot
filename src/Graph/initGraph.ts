@@ -123,7 +123,9 @@ export const initGraph = ()=> {
           enabled: true,
         },
         snapline: true,
-        keyboard: true,
+        keyboard: {
+          enabled: true,
+        },
         clipboard: true
     });
     graph.drawBackground({
