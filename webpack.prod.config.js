@@ -3,18 +3,41 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'production', //生产模式会压缩代码
-  entry: path.resolve(__dirname, './src/lib/index.tsx'), //指定打包入口文件
+  entry: path.resolve(__dirname, './src/app.tsx'), //指定打包入口文件
   output: {
     filename: 'index.js', //打包后的文件名
     path: path.resolve(__dirname, './dist'), //输出路径
-    libraryTarget: 'commonjs2', //指定类型，默认是var ?
-    library: 'lot_scada',
+    // libraryTarget: 'commonjs2', //指定类型，默认是var ?//意思是把我们的输出作为react组件
+    // library: 'x6_scada',
+    library: {
+      name: 'XScadas',
+      type: 'umd', // 以库的形式导出入口文件时，输出的类型,这里是通过umd的方式来暴露library,适用于使用方import的方式导入npm包
+    },
+  },
+
+  externals: {
+    react: {
+      commonjs: 'react',
+      commonjs2: 'react',
+      amd: 'react',
+      root: 'React',
+    },
+    'react-dom': {
+      commonjs: 'react-dom',
+      commonjs2: 'react-dom',
+      amd: 'react-dom',
+      root: 'ReactDOM',
+    },
   },
 
   resolve: {
     // 解决导入的文件可以不用添加后缀名
-    extensions: ['.tsx', '.ts', '.jsx', '.js'],
+    extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
   },
+  // devtool: 'inline-source-map',
 
   module: {
     rules: [
@@ -43,6 +66,18 @@ module.exports = {
           'css-loader',
           'postcss-loader',
         ],
+      },
+      {
+        test: /.(jpg|png|gif)$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            // 占位符 placeholder
+            name: '[name]_[hash].[ext]',
+            outputPath: 'assets/images/',
+            limit: 2048,
+          },
+        },
       },
     ],
   },

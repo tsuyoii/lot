@@ -10,7 +10,7 @@ import { ImgStencil } from './Graph/ImgStencil';
 import { SystemStencil } from './Graph/SystemStencil';
 import { initImgStencil, initSystemStencil } from './Graph/initStencil';
 
-export default function () {
+export default function App() {
   const apiUrl = process.env.REACT_APP_LOT_API_URL;
   console.log(apiUrl);
 

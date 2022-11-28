@@ -10,7 +10,7 @@
         "module": "esnext",
         "moduleResolution": "node",
         "sourceMap": true,
-        "declaration": true,
+        "declaration": false,
         "skipLibCheck": true,
         "esModuleInterop": true,
         "noImplicitAny": true,
@@ -26,7 +26,5 @@
             "ES2015"
         ]
     },
-    "include": [
-        "src"
-        , "src/lib"    ]
+    "include": ["src"]
 }
