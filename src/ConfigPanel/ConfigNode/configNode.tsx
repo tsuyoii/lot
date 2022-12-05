@@ -4,6 +4,7 @@ import { Cell } from '@antv/x6';
 import FlowGraph from '../../Graph';
 import { useAsyncComponent } from '../../asyncComponent';
 import { CATEGORY_PARAM } from '../../nodeComponents/componentPath';
+import ColorPickerInput from '../../common/color-picker/color-picker';
 
 const { TabPane } = Tabs;
 
@@ -24,9 +25,9 @@ export default function (props: IProps) {
   const [attrs, setAttrs] = React.useState<NodeAttrs>({
     stroke: '#5F95FF',
     strokeWidth: 1,
-    fill: 'rgba(95,149,255,0.05)',
+    fill: '#5f95ff0d',
     fontSize: 12,
-    color: 'rgba(0,0,0,0.85)',
+    color: '#000000d9',
   });
   const cellRef = React.useRef<Cell>();
   const [nodeLabel, setNodeLabel] = React.useState<any>();
@@ -70,8 +71,7 @@ export default function (props: IProps) {
     }));
   };
 
-  const onStrokeChange = (e: React.FocusEvent<HTMLInputElement>) => {
-    const val = e.target.value;
+  const onStrokeChange = (val: string) => {
     setAttr('stroke', val);
     cellRef.current!.attr('body/stroke', val);
   };
@@ -81,8 +81,7 @@ export default function (props: IProps) {
     cellRef.current!.attr('body/strokeWidth', val);
   };
 
-  const onFillChange = (e: React.FocusEvent<HTMLInputElement>) => {
-    const val = e.target.value;
+  const onFillChange = (val: string) => {
     setAttr('fill', val);
     cellRef.current!.attr('body/fill', val);
   };
@@ -92,8 +91,7 @@ export default function (props: IProps) {
     cellRef.current!.attr('text/fontSize', val);
   };
 
-  const onColorChange = (e: React.FocusEvent<HTMLInputElement>) => {
-    const val = e.target.value;
+  const onColorChange = (val: string) => {
     setAttr('color', val);
     cellRef.current!.attr('text/fill', val);
   };
@@ -119,12 +117,7 @@ export default function (props: IProps) {
         <Row align="middle">
           <Col span={8}>边框颜色</Col>
           <Col span={14}>
-            <Input
-              type="color"
-              value={attrs.stroke}
-              style={{ width: '100%' }}
-              onChange={onStrokeChange}
-            />
+            <ColorPickerInput value={attrs.stroke} onChange={onStrokeChange} />
           </Col>
         </Row>
         <Row align="middle">
@@ -145,12 +138,7 @@ export default function (props: IProps) {
         <Row align="middle">
           <Col span={8}>填充颜色</Col>
           <Col span={14}>
-            <Input
-              type="color"
-              value={attrs.fill}
-              style={{ width: '100%' }}
-              onChange={onFillChange}
-            />
+            <ColorPickerInput value={attrs.fill} onChange={onFillChange} />
           </Col>
         </Row>
       </TabPane>
@@ -173,12 +161,7 @@ export default function (props: IProps) {
         <Row align="middle">
           <Col span={8}>字体颜色</Col>
           <Col span={14}>
-            <Input
-              type="color"
-              value={attrs.color}
-              style={{ width: '100%' }}
-              onChange={onColorChange}
-            />
+            <ColorPickerInput value={attrs.color} onChange={onColorChange} />
           </Col>
         </Row>
       </TabPane>

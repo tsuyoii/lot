@@ -96,3 +96,13 @@
 .left-tab .ant-tabs-nav {
   margin: 0 !important;
 }
+
+.ant-slider-track {
+  background-color: #1890ff !important;
+}
+.ant-slider-handle {
+  border: solid 2px #1890ff !important;
+  width: 10px !important;
+  height: 10px !important;
+  margin-top: -3px !important;
+}

@@ -7,8 +7,8 @@ import Config from './ConfigPanel/config';
 import { CONFIG_TYPE } from './constant/enums';
 import { Tabs } from 'antd';
 import { ImgStencil } from './Graph/ImgStencil';
-import { SystemStencil } from './Graph/SystemStencil';
 import { initImgStencil, initSystemStencil } from './Graph/initStencil';
+import { ContextMenu } from './ContextMenu/contextMenu';
 
 export default function App() {
   const apiUrl = process.env.REACT_APP_LOT_API_URL;
@@ -146,14 +146,42 @@ export default function App() {
               cells.push(
                 graph.createEdge({
                   shape: 'edge',
+                  markup: [
+                    {
+                      tagName: 'path',
+                      selector: 'wrap',
+                      groupSelector: 'lines',
+                    },
+                    {
+                      tagName: 'path',
+                      selector: 'line1',
+                      groupSelector: 'lines',
+                    },
+                    {
+                      tagName: 'path',
+                      selector: 'line2',
+                      groupSelector: 'lines',
+                    },
+                  ],
                   attrs: {
-                    line: {
+                    lines: {
+                      connection: true,
+                      fill: 'none',
+                      targetMarker: null,
+                      strokeWidth: 2,
+                      // strokeDasharray: '8',
+                      // strokeLinejoin: 'round',
+                    },
+                    line1: {
+                      stroke: '#ffffff',
+                      targetMarker: null,
+                      strokeWidth: 2,
+                    },
+                    line2: {
                       stroke: '#A2B1C3',
-                      targetMarker: {
-                        height: 8,
-                        name: 'block',
-                        width: 12,
-                      },
+                      strokeWidth: 2,
+                      strokeDashoffset: 8,
+                      targetMarker: null,
                     },
                   },
                   tools: {
@@ -180,14 +208,42 @@ export default function App() {
               cells.push(
                 graph.createEdge({
                   shape: 'edge',
+                  markup: [
+                    {
+                      tagName: 'path',
+                      selector: 'wrap',
+                      groupSelector: 'lines',
+                    },
+                    {
+                      tagName: 'path',
+                      selector: 'line1',
+                      groupSelector: 'lines',
+                    },
+                    {
+                      tagName: 'path',
+                      selector: 'line2',
+                      groupSelector: 'lines',
+                    },
+                  ],
                   attrs: {
-                    line: {
+                    lines: {
+                      connection: true,
+                      fill: 'none',
+                      targetMarker: null,
+                      strokeWidth: 2,
+                      // strokeDasharray: '8',
+                      // strokeLinejoin: 'round',
+                    },
+                    line1: {
+                      stroke: '#ffffff',
+                      targetMarker: null,
+                      strokeWidth: 2,
+                    },
+                    line2: {
                       stroke: '#A2B1C3',
-                      targetMarker: {
-                        height: 8,
-                        name: 'block',
-                        width: 12,
-                      },
+                      strokeWidth: 2,
+                      strokeDashoffset: 8,
+                      targetMarker: null,
                     },
                   },
                   tools: {
@@ -234,7 +290,8 @@ export default function App() {
   return (
     <div className={'wrap'}>
       <div className={'header'}>
-        <span className={'text'}>AISENZ</span>
+        {/* <span className={'text'}>AISENZ</span> */}
+        {/* <Header/> */}
       </div>
       <div className={'content'}>
         <Tabs
@@ -260,6 +317,8 @@ export default function App() {
         <div id="container" className="app-content" />
         {/* <div id="minimap" className={'minimap'}></div> */}
         <Config type={type} id={id} category={category} />
+
+        <ContextMenu />
       </div>
     </div>
   );

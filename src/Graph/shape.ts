@@ -378,16 +378,43 @@ import { Graph } from "@antv/x6";
         "custom-edge",
         {
           inherit: "edge",
+          markup: [
+            {
+              tagName: 'path',
+              selector: 'wrap',
+              groupSelector: 'lines',
+            },
+            {
+              tagName: 'path',
+              selector: 'line1',
+              groupSelector: 'lines',
+            },
+            {
+              tagName: 'path',
+              selector: 'line2',
+              groupSelector: 'lines',
+            }
+          ],
           attrs: {
-                line: {
-                  stroke: "#A2B1C3",
+                lines: {
+                  connection: true,
+                  fill: 'none',
+                  targetMarker: null,
                   strokeWidth: 2,
-                  targetMarker: {
-                    name: "block",
-                    width: 12,
-                    height: 8
-                  }
-                }
+                  // strokeDasharray: '8',
+                  // strokeLinejoin: 'round',
+                },
+                line1: {
+                  stroke: '#ffffff',
+                  targetMarker: null,
+                  strokeWidth: 2,
+                },
+                line2: {
+                  stroke: '#A2B1C3',
+                  strokeWidth: 2,
+                  strokeDashoffset: 8,
+                  targetMarker: null,
+                },
           },
           tools: {
             name: 'segments',

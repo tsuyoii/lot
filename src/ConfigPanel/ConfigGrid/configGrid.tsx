@@ -1,6 +1,17 @@
 import * as React from 'react';
-import { Tabs, Row, Col, Select, Slider, Input, Checkbox } from 'antd';
+import {
+  Tabs,
+  Row,
+  Col,
+  Select,
+  Slider,
+  Input,
+  Checkbox,
+  Divider,
+  Space,
+} from 'antd';
 import FlowGraph from '../../Graph';
+import ColorPickerInput from '../../common/color-picker/color-picker';
 
 const { TabPane } = Tabs;
 
@@ -41,6 +52,9 @@ const tryToJSON = (val: string) => {
 
 export default function (props: IProps) {
   const { attrs, setAttr } = props;
+  const { graph } = FlowGraph;
+
+  const [gridVisible, setGridVisible] = React.useState(true);
 
   React.useEffect(() => {
     let options;
@@ -70,8 +84,7 @@ export default function (props: IProps) {
         ],
       };
     }
-    const { graph } = FlowGraph;
-    // graph.drawGrid(options)
+    graph?.drawGrid(options);
   }, [
     attrs.type,
     attrs.color,
@@ -82,9 +95,17 @@ export default function (props: IProps) {
   ]);
 
   React.useEffect(() => {
-    const { graph } = FlowGraph;
-    // graph.setGridSize(attrs.size)
+    graph?.setGridSize(attrs.size);
   }, [attrs.size]);
+  React.useEffect(() => {
+    if (!gridVisible) {
+      graph?.setGridSize(1);
+      graph?.hideGrid();
+    } else {
+      graph?.setGridSize(attrs.size);
+      graph?.showGrid();
+    }
+  }, [gridVisible]);
 
   React.useEffect(() => {
     const options = {
@@ -98,8 +119,7 @@ export default function (props: IProps) {
       position: tryToJSON(attrs.position),
       opacity: attrs.opacity,
     };
-    const { graph } = FlowGraph;
-    // graph.drawBackground(options)
+    graph?.drawBackground(options);
   }, [
     attrs.bgColor,
     attrs.showImage,
@@ -114,7 +134,19 @@ export default function (props: IProps) {
     <Tabs defaultActiveKey="1">
       <TabPane tab="网格" key="1">
         <Row align="middle">
-          <Col span={10}>Grid Type</Col>
+          <Col span={10}>显示网格</Col>
+          <Col span={12}>
+            <Checkbox
+              checked={gridVisible}
+              onChange={(e) => {
+                setGridVisible(!gridVisible);
+              }}>
+              显示网格
+            </Checkbox>
+          </Col>
+        </Row>
+        <Row align="middle">
+          <Col span={10}>网格类型</Col>
           <Col span={12}>
             <Select
               style={{ width: '100%' }}
@@ -132,7 +164,7 @@ export default function (props: IProps) {
           </Col>
         </Row>
         <Row align="middle">
-          <Col span={10}>Grid Size</Col>
+          <Col span={10}>网格大小</Col>
           <Col span={10}>
             <Slider
               min={1}
@@ -151,11 +183,9 @@ export default function (props: IProps) {
             <Row align="middle">
               <Col span={10}>Primary Color</Col>
               <Col span={12}>
-                <Input
-                  type="color"
+                <ColorPickerInput
                   value={attrs.color}
-                  style={{ width: '100%' }}
-                  onChange={(e) => setAttr('color', e.target.value)}
+                  onChange={(e: string) => setAttr('color', e)}
                 />
               </Col>
             </Row>
@@ -177,11 +207,9 @@ export default function (props: IProps) {
             <Row align="middle">
               <Col span={10}>Secondary Color</Col>
               <Col span={12}>
-                <Input
-                  type="color"
+                <ColorPickerInput
                   value={attrs.colorSecond}
-                  style={{ width: '100%' }}
-                  onChange={(e) => setAttr('colorSecond', e.target.value)}
+                  onChange={(e: string) => setAttr('colorSecond', e)}
                 />
               </Col>
             </Row>
@@ -219,13 +247,11 @@ export default function (props: IProps) {
         ) : (
           <React.Fragment>
             <Row align="middle">
-              <Col span={10}>Grid Color</Col>
+              <Col span={10}>网格颜色</Col>
               <Col span={12}>
-                <Input
-                  type="color"
+                <ColorPickerInput
                   value={attrs.color}
-                  style={{ width: '100%' }}
-                  onChange={(e) => setAttr('color', e.target.value)}
+                  onChange={(e: string) => setAttr('color', e)}
                 />
               </Col>
             </Row>
@@ -246,25 +272,41 @@ export default function (props: IProps) {
             </Row>
           </React.Fragment>
         )}
+
+        <div style={{ marginTop: 200 }}>
+          <Divider />
+          <h4>小贴士</h4>
+          <Row align="middle">
+            <Col span={10}>alt</Col>
+            <Col span={12}>移动组合中的节点</Col>
+          </Row>
+          <Row align="middle">
+            <Col span={10}>shift+w</Col>
+            <Col span={12}>节点位置微调</Col>
+          </Row>
+          <Row align="middle">
+            <Col span={10}>shift</Col>
+            <Col span={12}>多选/框选</Col>
+          </Row>
+        </div>
       </TabPane>
       <TabPane tab="背景" key="2">
         <Row align="middle">
-          <Col span={6}>Color</Col>
-          <Col span={14}>
-            <Input
-              type="color"
+          <Col span={10}>背景颜色</Col>
+          <Col span={12}>
+            <ColorPickerInput
               value={attrs.bgColor}
-              style={{ width: '100%' }}
-              onChange={(e) => setAttr('bgColor', e.target.value)}
+              onChange={(e: string) => setAttr('bgColor', e)}
             />
           </Col>
         </Row>
         <Row align="middle">
-          <Col span={14} offset={6}>
+          <Col span={10}>背景图片</Col>
+          <Col span={12}>
             <Checkbox
               checked={attrs.showImage}
               onChange={(e) => setAttr('showImage', e.target.checked)}>
-              Show Image
+              显示图片
             </Checkbox>
           </Col>
         </Row>

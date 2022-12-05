@@ -1,4 +1,5 @@
-import { Graph, Shape } from "@antv/x6"
+import { Cell, Graph, Shape } from "@antv/x6"
+import ReactDOM from "react-dom";
 
 export const initGraph = ()=> {
     const graph = new Graph({
@@ -21,15 +22,18 @@ export const initGraph = ()=> {
         },
         connecting: {
           router: {
-            name: "manhattan",
-            args: {
-              padding: 1
-            }
+            // name: "manhattan",
+            // args: {
+            //   padding: 1
+            // }
+            name: 'orth',
+            args: {}
           },
           connector: {
             name: "rounded",
             args: {
-              radius: 8
+              // radius: 8
+              radius: 1
             }
           },
           anchor: "center",
@@ -40,16 +44,41 @@ export const initGraph = ()=> {
           },
           createEdge() {
             return new Shape.Edge({
-              attrs: {
-                line: {
-                  stroke: "#A2B1C3",
-                  strokeWidth: 2,
-                  targetMarker: {
-                    name: "block",
-                    width: 12,
-                    height: 8
-                  }
+              markup: [
+                {
+                  tagName: 'path',
+                  selector: 'wrap',
+                  groupSelector: 'lines',
+                },
+                {
+                  tagName: 'path',
+                  selector: 'line1',
+                  groupSelector: 'lines',
+                },
+                {
+                  tagName: 'path',
+                  selector: 'line2',
+                  groupSelector: 'lines',
                 }
+              ],
+              attrs: {
+                    lines: {
+                      connection: true,
+                      fill: 'none',
+                      targetMarker: null,
+                      strokeWidth: 2,
+                    },
+                    line1: {
+                      stroke: '#ffffff',
+                      targetMarker: null,
+                      strokeWidth: 2,
+                    },
+                    line2: {
+                      stroke: '#A2B1C3',
+                      strokeWidth: 2,
+                      strokeDashoffset: 8,
+                      targetMarker: null,
+                    },
               },
               tools: {
                 name: 'segments',
@@ -126,11 +155,11 @@ export const initGraph = ()=> {
         keyboard: {
           enabled: true,
         },
-        clipboard: true
+        clipboard: true,
     });
-    graph.drawBackground({
-      color:'#fef8ef'
-    })
+    // graph.drawBackground({
+    //   color:'#fef8ef'
+    // })
     initEvent(graph);
     initKeyboard(graph);
     return graph;
@@ -178,7 +207,15 @@ const initKeyboard = (graph:Graph) => {
   graph.bindKey(['meta+c', 'ctrl+c'], () => {
     const cells = graph.getSelectedCells()
     if (cells.length) {
-        graph.copy(cells)
+      let childrenCell: Cell<Cell.Properties>[] = []
+      cells.forEach(node=>{
+        const children = node.getChildren();
+        if(children){
+          childrenCell = childrenCell.concat(children)
+          graph.select(children)
+        }
+      })
+      graph.copy([...cells,...childrenCell])
     }
     return false
   })
@@ -192,6 +229,7 @@ const initKeyboard = (graph:Graph) => {
   })
 
   graph.bindKey(['meta+v', 'ctrl+v'], () => {
+    const time = new Date().getTime()
     if (!graph.isClipboardEmpty()) {
       const cells = graph.paste({ offset: 32 })
       graph.cleanSelection()
@@ -249,6 +287,124 @@ const initKeyboard = (graph:Graph) => {
     }
   })
 
+  // 按下ALT键可以调整组合中的子节点
+  graph.bindKey('alt',(e)=>{
+    graph.getNodes().forEach(cell => {
+      if(cell?.data?.parent){
+        cell.toBack()
+        cell.attr('body/fill','#ffdbc4')
+        cell.attr('body/strokeWidth',1)
+        cell.attr('body/strokeDasharray',5)
+        cell.attr('body/stroke','orange')
+      }
+    })
+  },'keydown')
+  graph.bindKey('alt',(e)=>{
+    graph.getNodes().forEach(cell => {
+      if(cell?.data?.parent){
+        cell.toFront()
+        cell.attr('body/fill','transparent')
+        cell.attr('body/strokeWidth',0)
+      }
+    })
+  },'keyup')
+
+  // shift+w键可以取消对齐线从而实现微调
+  let gridSize = graph.getGridSize()
+  graph.bindKey(['shift+w', 'shift+w'],(e)=>{
+    graph.disableSnapline()
+    graph.setGridSize(0.01)
+  },'keydown')
+  graph.bindKey(['shift+w', 'shift+w'],(e)=>{
+    graph.enableSnapline()
+    graph.setGridSize(gridSize)
+  },'keyup')
+
+  graph.on('node:change:size', ({ node, options }) => {
+    if (options.skipParentHandler) {
+      return
+    }
+
+    const children = node.getChildren()
+    if (children && children.length) {
+      node.prop('originSize', node.getSize())
+
+    }
+  })
+
+  graph.on('node:change:position', ({ node, options }) => {
+    if (options.skipParentHandler) {
+      return
+    }
+
+    const children = node.getChildren()
+    if (children && children.length) {
+      node.prop('originPosition', node.getPosition())
+    }
+
+    const parent = node.getParent()
+    if (parent && parent.isNode()) {
+      let originSize = parent.prop('originSize')
+      if (originSize == null) {
+        originSize = parent.getSize()
+        parent.prop('originSize', originSize)
+      }
+
+      let originPosition = parent.prop('originPosition')
+      if (originPosition == null) {
+        originPosition = parent.getPosition()
+        parent.prop('originPosition', originPosition)
+      }
+
+      let x = originPosition.x
+      let y = originPosition.y
+      let cornerX = originPosition.x + originSize.width
+      let cornerY = originPosition.y + originSize.height
+      let hasChange = false
+
+      const children = parent.getChildren()
+      if (children) {
+        children.forEach((child) => {
+          const bbox = child.getBBox()
+          const corner = bbox.getCorner()
+
+          if (bbox.x < x) {
+            x = bbox.x
+            hasChange = true
+          }
+
+          if (bbox.y < y) {
+            y = bbox.y
+            hasChange = true
+          }
+
+          if (corner.x > cornerX) {
+            cornerX = corner.x
+            hasChange = true
+          }
+
+          if (corner.y > cornerY) {
+            cornerY = corner.y
+            hasChange = true
+          }
+        })
+      }
+
+      if (hasChange) {
+        parent.prop(
+          {
+            position: { x, y },
+            size: { width: cornerX - x, height: cornerY - y },
+          },
+          // Note that we also pass a flag so that we know we shouldn't
+          // adjust the `originPosition` and `originSize` in our handlers.
+          { skipParentHandler: true },
+        )
+      }
+    }
+  })
+
+
   // 单击选中边，拖拽时可以编辑边
 
   graph.on('edge:mouseenter', ({ cell }) => {
@@ -274,9 +430,16 @@ const initKeyboard = (graph:Graph) => {
       
   })
   
-  // graph.on('edge:mouseleave', ({ cell }) => {
-  //     cell.removeTools()
-  // })
+  graph.on('edge:mouseleave', ({ cell }) => {
+      cell.removeTools([
+        {
+          name: 'source-arrowhead',
+        },
+        {
+          name: 'target-arrowhead',
+        },
+      ])
+  })
 
   // graph.on('edge:contextmenu', ({ cell }) => {
   //   console.log('右键边')
@@ -305,11 +468,68 @@ const initKeyboard = (graph:Graph) => {
           {x:40,y:40}
         ]
       },
-      {name:'boundary'},
+      {
+        name:'boundary',
+        args:[
+          {
+            fill: 'black',
+            stroke: 'orange',
+          }
+        ]
+      },
       { name: 'segments'},
     ])
   })
   graph.on('edge:unselected', ({ cell }) => {
     cell.removeTools()
   })
+
+  const menu = document.getElementById('contextMenu');
+  graph.on('node:contextmenu',({cell,e}) => {
+    const selected = graph.getSelectedCells();
+    if(!selected.includes(cell)){
+      graph.unselect(graph.getSelectedCells())
+    }
+    graph.select(cell)
+    if(menu){
+      menu.style.display = 'block';
+      menu.style.top = e.clientY+10+ 'px';
+      menu.style.left = e.clientX -10 + 'px';
+    }
+  })
+
+  graph.on('blank:contextmenu',({e}) => {
+    if(menu){
+      menu.style.display = 'block';
+      menu.style.top = e.clientY+10+ 'px';
+      menu.style.left = e.clientX -10 + 'px';
+    }
+  })
+
+  graph.on('blank:mousedown',({e}) => {
+    graph.unselect(graph.getSelectedCells())
+    if(menu){
+      menu.style.display = 'none';
+    }
+  })
+
+  // 选中组合的节点时，将所有该组合的节点都选中
+  // graph.on('node:selected',({node})=>{
+  //   if(node && node.getProp('combine')){
+  //     //如果属于组合
+  //     // const combine = node.getParent()
+  //     // graph.select(combine?.children)
+
+  //     // graph.getNodes().forEach((item) => {
+  //     //   const combine = item.getProp('combine')
+  //     //   if (combine && combine === node.getProp('combine')) {
+  //     //     // 同一个组合的节点
+  //     //     graph.select(item)
+  //     //   }
+  //     // })  
+  //     // node.getParent()?.toFront();    
+  //   }
+  // })
+
+
 }
