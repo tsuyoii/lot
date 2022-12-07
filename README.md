@@ -37,7 +37,7 @@ import 'lot_scada/dist/assets/css/main.css';
 
 ```
 
-修改版本号，修改 name 为 x6_scada（任意名字都行）
+修改版本号//version:0.0.5，修改 name 为 x6_scada（任意名字都行）
 yarn build
 npm publish
 
@@ -51,7 +51,7 @@ npm publish
         "src"
     ],
     删除"main": "./dist/index.js",
-    修改"version":    // "version": "0.0.4",
+    修改"version":    // "version": "0.0.6",
 ```
 
 修改 name 为 x6_scada_yalc（其实改成什么名字都行，与父项目中对应即可）
