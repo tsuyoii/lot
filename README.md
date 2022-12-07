@@ -4,6 +4,10 @@
 
 ![1-1](src/assets/2.png)
 
+# 在线体验
+
+[https://tsuyoii.github.io/x6_scada_HMI/](https://tsuyoii.github.io/x6_scada_HMI/)
+
 # 查看历史
 
 ![1-2](src/assets/githistory.png)
@@ -145,7 +149,7 @@ export const ScadaView = () => {
   - 取色器组件
   - 流动动效
 
-- v0.0.5
+- v0.0.6
 
   - 顶部菜单栏
     - 保存成 json 文件
