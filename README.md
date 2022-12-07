@@ -2,7 +2,7 @@
 
 更轻松地构建面向客户的 IoT 应用程序
 
-![1-1](src/assets/1.png)
+![1-1](src/assets/2.png)
 
 # 查看历史
 
