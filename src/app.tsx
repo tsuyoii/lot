@@ -336,7 +336,7 @@ export default function () {
   return (
     <div className={'wrap'}>
       <div className={'header'}>
-        <span className={'text'}>AISENZ</span>
+        <span className={'text'}>AIS</span>
       </div>
       <div className={'content'}>
         <div id="stencil" className="app-side"></div>
