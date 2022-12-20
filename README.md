@@ -17,12 +17,12 @@
 #### 注意 ⚠️：目前还在开发中，暂未能实现传入数据或自定义等功能，预计下一版本实现，敬请期待
 
 ```
-npm install x6_scada
+npm install lot_scada
 ```
 
 ```
-import XScadas from 'x6_scada/dist';
-import 'x6_scada/dist/assets/css/main.css';
+import XScadas from 'lot_scada/dist';
+import 'lot_scada/dist/assets/css/main.css';
 
 <XScadas />
 ```
@@ -41,7 +41,7 @@ import 'x6_scada/dist/assets/css/main.css';
 
 ```
 
-修改版本号//version:0.0.7，修改 name 为 x6_scada（任意名字都行）
+修改版本号//version:0.0.8，修改 name 为 lot_scada（任意名字都行）
 yarn build
 npm publish
 
@@ -55,7 +55,7 @@ npm publish
 yarn build
 npm pack
 将生成的压缩包解压生成 package,package 中的内容即为将要发布到 npm 上的包的内容
-可以将 package 改名为 x6_scada
+可以将 package 改名为 lot_scada
 然后拷贝到父项目的 node_modules 中即可引用
 ```
 
@@ -95,8 +95,8 @@ export const ScadaView = () => {
 };
 
 // dist版本，但是每次要子项目build之后修改才会生效，这里不用dist版本了
-// import App from 'x6_scada_yalc/dist'; //ok
-// import 'x6_scada_yalc/dist/assets/css/main.css';
+// import App from 'lot_scada_yalc/dist'; //ok
+// import 'lot_scada_yalc/dist/assets/css/main.css';
 //export const ScadaView = () => {
 //  return (
 //    <App />
@@ -109,8 +109,8 @@ export const ScadaView = () => {
 //npm 版
 import * as React from 'react';
 /* ok */
-import XScadas from 'x6_scada/dist';
-import 'x6_scada/dist/assets/css/main.css';
+import XScadas from 'lot_scada/dist';
+import 'lot_scada/dist/assets/css/main.css';
 
 export const ScadaView = () => {
   return (
@@ -124,18 +124,18 @@ export const ScadaView = () => {
 // 试验过程，参考即可
 // import { useState, useEffect } from 'react';
 import * as React from 'react';
-// import { XScada } from 'x6_scada/dist/index';
-// import * as XScada from 'x6_scada';
+// import { XScada } from 'lot_scada/dist/index';
+// import * as XScada from 'lot_scada';
 
-// import XScada from 'x6_scada_yalc/src/lib/index';//报错
+// import XScada from 'lot_scada_yalc/src/lib/index';//报错
 
-// import XScadas from 'x6_scada_yalc/src/app'; //ok
-// import App from 'x6_scada_yalc/src/app'; //ok
-// import App from 'x6_scada_yalc/dist'; //ok
+// import XScadas from 'lot_scada_yalc/src/app'; //ok
+// import App from 'lot_scada_yalc/src/app'; //ok
+// import App from 'lot_scada_yalc/dist'; //ok
 
 /* ok */
-import XScadas from 'x6_scada/dist';
-import 'x6_scada/dist/assets/css/main.css';
+import XScadas from 'lot_scada/dist';
+import 'lot_scada/dist/assets/css/main.css';
 
 export const ScadaView = () => {
   // const [scada, setScada] = React.useState(x6_scada.x6_scada.XScada);
@@ -152,7 +152,7 @@ export const ScadaView = () => {
 
 # 更新
 
-- v0.2.8
+- v0.0.3
 
   - 右键菜单
     - 置顶
@@ -164,7 +164,7 @@ export const ScadaView = () => {
   - 取色器组件
   - 流动动效
 
-- v0.2.9
+- v0.0.6
 
   - 顶部菜单栏
     - 保存成 json 文件
@@ -178,7 +178,7 @@ export const ScadaView = () => {
     - 锁定
     - 预览
 
-- v0.3.0
+- v0.0.7
 
   - 新增图表节点 📈
   - 插件可传入 data 数据和保存数据的方法 onSave, 也可以不传
@@ -187,7 +187,7 @@ export const ScadaView = () => {
     <XScadas data={data} onSave={(jsonData)=>{console.log(jsonData)}}/>
   ```
 
-- v0.3.3
+- v0.0.8
 
   - 修复点击画布上某些节点(如图表节点时，进入设置项报错 bug)
 
@@ -206,4 +206,4 @@ export const ScadaView = () => {
 Uncaught Error: Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons: 1. You might have mismatching versions of React and the renderer (such as React DOM) 2. You might be breaking the Rules of Hooks 3. You might have more than one copy of React in the same app
 ```
 
-- 解答：查看 x6_scada 包下是否有自己的 node_modules，有的话删除 node_modules 并重启项目即可
+- 解答：查看 lot_scada 包下是否有自己的 node_modules，有的话删除 node_modules 并重启项目即可

@@ -1,7 +1,7 @@
 {
-    "name": "x6_scada",
+    "name": "lot_scada",
     "author": "koreol",
-    "version": "0.3.3",
+    "version": "0.0.8",
     "license": "MIT",
     "private": false,
     "homepage": "https://tsuyoii.github.io/x6_scada_HMI/",
